@@ -6,18 +6,26 @@ import { useCart } from 'contexts/cart-context';
 import * as S from './style';
 
 const Cart = () => {
+  // Added 'closeCart' to handle auto-closing
   const { products, total, isOpen, openCart, closeCart } = useCart();
 
   const handleCheckout = () => {
     if (total.productQuantity) {
+      // 1. Show Professional Message
       alert(
-        `Checkout - Subtotal: ${total.currencyFormat} ${formatPrice(
+        `VentureMond: Order Placed Successfully!\nTotal Amount: ${total.currencyFormat} ${formatPrice(
           total.totalPrice,
           total.currencyId
-        )}`
+        )}\n\nThank you for shopping with us!`
       );
+
+      // 2. Auto-close the cart
+      closeCart();
+
+      // Note: If you want to clear the cart, you'd usually call a clearCart() 
+      // function from your context here.
     } else {
-      alert('Add some product in the cart!');
+      alert('VentureMond: Please add some products to your cart first!');
     }
   };
 
@@ -44,7 +52,8 @@ const Cart = () => {
             <S.CartIcon large>
               <S.CartQuantity>{total.productQuantity}</S.CartQuantity>
             </S.CartIcon>
-            <S.HeaderTitle>Cart</S.HeaderTitle>
+            {/* Added Branding to Header */}
+            <S.HeaderTitle>VentureMond Cart</S.HeaderTitle>
           </S.CartContentHeader>
 
           <CartProducts products={products} />
